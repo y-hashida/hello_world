@@ -16,4 +16,28 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            echo 'One way or another, I have finished'
+            deleteDir() // clean up our workspace
+        }
+        success {
+            echo 'I succeeeded!'
+            curl -X POST -H "Authorization: token ${GIT_TOKEN}" "https://api.github.com/repos/y_hashida/hello_world/statuses/$(git rev-parse HEAD)" \
+            -d "{
+              \"state\": \"success\",
+              \"target_url\": \"${BUILD_URL}\",
+              \"description\": \"The build has succeeded!\"
+            }"
+        }
+        failure {
+            echo 'I failure'
+            curl -X POST -H "Authorization: token ${GIT_TOKEN}" "https://api.github.com/repos/y_hashida/hello_world/statuses/$(git rev-parse HEAD)" \
+            -d "{
+              \"state\": \"failure\",
+              \"target_url\": \"${BUILD_URL}\",
+              \"description\": \"The build has failed!\"
+            }"
+        }
+    }
 }
