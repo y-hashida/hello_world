@@ -11,6 +11,11 @@ pipeline {
                 echo 'Compile the source code' 
             }
         }
+        stage('Compile 2') {
+            steps {
+                echo 'Compile 2 the source code' 
+            }
+        }
         stage('Security Check') {
             steps {
                 echo 'Run the security check against the application' 
