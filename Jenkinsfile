@@ -7,7 +7,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build' 
-                sh "openssl passwd -6 -salt jRN3fhCq7jLswbUr ${GIT_TOKEN}"
             }
         }
         stage('Test') {
@@ -21,6 +20,7 @@ pipeline {
             echo 'One way or another, I have finished'
             deleteDir() // clean up our workspace
         }
+        /*
         success {
             echo 'I succeeeded!'
             curl -X POST -H "Authorization: token ${GIT_TOKEN}" "https://api.github.com/repos/y-hashida/hello_world/statuses/$(git rev-parse HEAD)" \
@@ -37,5 +37,6 @@ pipeline {
               \"description\": \"The build has failed!\"
             }"
         }
+        */
     }
 }
